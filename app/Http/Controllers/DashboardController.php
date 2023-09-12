@@ -14,6 +14,7 @@ class DashboardController extends Controller
         $senaraiPeralatan = [
             // Data 1
             [
+                'id' => 1,
                 'nama_peralatan' => 'Facemask',
                 'submission_id' => 'ABC123',
                 'nama_pembekal' => 'Syarikat ABC',
@@ -22,6 +23,7 @@ class DashboardController extends Controller
             ],
             // Data 2
             [
+                'id' => 2,
                 'nama_peralatan' => 'Latex Glove',
                 'submission_id' => 'XYZ123',
                 'nama_pembekal' => 'Syarikat XYZ',
@@ -30,6 +32,7 @@ class DashboardController extends Controller
             ],
             // Data 3
             [
+                'id' => 3,
                 'nama_peralatan' => 'Contact Lens',
                 'submission_id' => 'JKL123',
                 'nama_pembekal' => 'Syarikat JKL',
@@ -38,6 +41,7 @@ class DashboardController extends Controller
             ],
             // Data 4
             [
+                'id' => 4,
                 'nama_peralatan' => 'Picagari',
                 'submission_id' => 'FGH123',
                 'nama_pembekal' => 'Syarikat FGH',

@@ -4,7 +4,7 @@
 
 <main>
     <div class="container-fluid">
-        <h1 class="mt-4">Tambah Peralatan</h1>
+        <h1 class="mt-4">Edit Peralatan</h1>
     </div>
 </main>
 

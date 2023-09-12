@@ -42,7 +42,7 @@
                 <select name="status" class="form-control">
                     <option value="">-- Sila Pilih Status</option>
                     <option value="active">Active</option>
-                    <option value="inactive">In Active</option>
+                    <option value="pending">Pending</option>
                 </select>
             </div>
 
