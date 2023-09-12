@@ -11,7 +11,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return view('users.template-list-users');
     }
 
     /**
@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.template-borang-add');
     }
 
     /**
@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request->all();
     }
 
     /**

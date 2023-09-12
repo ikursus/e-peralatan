@@ -28,8 +28,8 @@
             </a>
             <div class="collapse" id="collapsePeralatan" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="">Senarai Peralatan</a>
-                    <a class="nav-link" href="">Tambah Peralatan</a>
+                    <a class="nav-link" href="{{ route('peralatan.index') }}">Senarai Peralatan</a>
+                    <a class="nav-link" href="{{ route('peralatan.create') }}">Tambah Peralatan</a>
                 </nav>
             </div>
 
