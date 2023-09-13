@@ -18,6 +18,8 @@ class UserController extends Controller
         // ->latest('id') // orderBy('id', 'asc') // desc
         ->get();
 
+        // dd($senaraiPengguna);
+
         return view('users.template-list-users', compact('senaraiPengguna'));
     }
 
@@ -66,7 +68,9 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $pengguna = DB::table('users')->where('id', '=', $id)->first();
+
+        return view('users.template-borang-edit', compact('pengguna'));
     }
 
     /**
@@ -74,7 +78,30 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Dapatkan data daripada proses validation
+        $data = $request->validate([
+            'name' => ['required', 'min:3'],
+            'email' => ['required', 'email:filter'],
+            'status' => ['required']
+        ]);
+
+        // Semak jika password di isi.
+        if ($request->has('password') && $request->filled('password'))
+        {
+            $request->validate([
+                'password' => ['min:4', 'confirmed'],
+            ]);
+
+            // Kemudian, encrypt password yang telah divalidasi
+            // Dan attachkan kembali kepada $data
+            $data['password'] = bcrypt($request->input('password'));
+        }
+
+        // Simpan data ke dalam table users menggunakan kaedah Query Builder
+        DB::table('users')->where('id', '=', $id)->update($data);
+
+        // Beri respon supaya redirect ke halaman senarai users dengan mesej berjaya
+        return redirect()->route('users.index')->with('mesej-berjaya', 'Rekod berjaya dikemaskini');
     }
 
     /**
@@ -82,6 +109,9 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        DB::table('users')->where('id', '=', $id)->delete();
+
+        // Beri respon supaya redirect ke halaman senarai users dengan mesej berjaya
+        return redirect()->route('users.index')->with('mesej-berjaya', 'Rekod berjaya dihapuskan');
     }
 }
