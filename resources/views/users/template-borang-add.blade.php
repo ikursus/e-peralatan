@@ -17,6 +17,8 @@
     <div class="card">
         <div class="card-body">
 
+            @include('layouts.alerts')
+
             <div class="mb-3">
                 <label class="form-label">Name</label>
                 <input type="text" class="form-control" name="name">

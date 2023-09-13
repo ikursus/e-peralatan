@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -11,7 +13,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('users.template-list-users');
+        $senaraiPengguna = DB::table('users')
+        // ->where('status', '=', 'pending')
+        // ->latest('id') // orderBy('id', 'asc') // desc
+        ->get();
+
+        return view('users.template-list-users', compact('senaraiPengguna'));
     }
 
     /**
@@ -27,7 +34,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+        // Dapatkan data daripada proses validation
+        $data = $request->validate([
+            'name' => ['required', 'min:3'],
+            'email' => ['required', 'email:filter'],
+            'password' => ['required', 'min:4', 'confirmed'],
+            'status' => ['required']
+        ]);
+
+        // Kemudian, encrypt password yang telah divalidasi
+        // Dan attachkan kembali kepada $data
+        $data['password'] = bcrypt($data['password']);
+
+        // Simpan data ke dalam table users menggunakan kaedah Query Builder
+        DB::table('users')->insert($data);
+
+        // Beri respon supaya redirect ke halaman senarai users dengan mesej berjaya
+        return redirect()->route('users.index')->with('mesej-berjaya', 'Rekod berjaya ditambah');
     }
 
     /**
