@@ -26,7 +26,7 @@
 
             @include('layouts.alerts')
 
-            <table id="datatablesSimple">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Nama</th>
@@ -84,6 +84,8 @@
                     @endforeach
                 </tbody>
             </table>
+
+            {{ $senaraiPengguna->links() }}
         </div>
     </div>
 </div>

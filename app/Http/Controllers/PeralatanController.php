@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Peralatan;
 use Illuminate\Http\Request;
 
@@ -77,10 +78,11 @@ class PeralatanController extends Controller
     // public function edit(string $id)
     public function edit(Peralatan $peralatan)
     {
+        $senaraiPendaftar = User::select('id', 'name')->cursor();
         // $peralatan = Peralatan::where('id', '=', $id)->first();
         // $peralatan = Peralatan::find($id);
 
-        return view('peralatan.template-borang-edit', compact('peralatan'));
+        return view('peralatan.template-borang-edit', compact('peralatan', 'senaraiPendaftar'));
     }
 
     /**
@@ -95,6 +97,7 @@ class PeralatanController extends Controller
             'nama_pembekal' => ['required'],
             'nama_jenama' => ['required'],
             'tarikh_pendaftaran' => ['required'],
+            'user_id' => ['required'],
             'status' => ['required', 'in:available,out_of_stock'],
         ]);
 

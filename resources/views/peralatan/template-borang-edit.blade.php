@@ -44,6 +44,16 @@
             </div>
 
             <div class="mb-3">
+                <label class="form-label">Pendaftar</label>
+                <select name="user_id" class="form-control">
+                    <option value="">-- Sila Pilih Pendaftar</option>
+                    @foreach ($senaraiPendaftar as $pendaftar)
+                    <option value="{{ $pendaftar->id }}" {{ $peralatan->user_id == $pendaftar->id ? 'selected="selected"' : NULL }}>{{ $pendaftar->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
                 <label class="form-label">Status</label>
                 <select name="status" class="form-control">
                     <option value="">-- Sila Pilih Status</option>

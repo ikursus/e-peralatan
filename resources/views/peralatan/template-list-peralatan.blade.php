@@ -44,7 +44,7 @@
                         <td>{{ $peralatan['submission_id'] }}</td>
                         <td>{{ $peralatan['nama_pembekal'] }}</td>
                         <td>{{ $peralatan['nama_jenama'] }}</td>
-                        <td>{{ $peralatan->rekodPendaftar->name }}</td>
+                        <td>{{ $peralatan->rekodPendaftar->name ?? NULL }}</td>
                         <td>{{ $peralatan['tarikh_pendaftaran'] }}</td>
                         <td>{{ $peralatan->status }}</td>
                         <td>

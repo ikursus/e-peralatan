@@ -17,7 +17,7 @@ class UserController extends Controller
         $senaraiPengguna = DB::table('users')
         // ->where('status', '=', 'pending')
         // ->latest('id') // orderBy('id', 'asc') // desc
-        ->get();
+        ->paginate(20);
 
         // dd($senaraiPengguna);
 
