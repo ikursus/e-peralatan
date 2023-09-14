@@ -42,6 +42,7 @@
                         <td>{{ $pengguna->email }}</td>
                         <td>{{ $pengguna->status }}</td>
                         <td>
+                            <a href="{{ route('users.show', $pengguna->id) }}" class="btn btn-success">Rekod Peralatan</a>
                             <a href="{{ route('users.edit', $pengguna->id) }}" class="btn btn-primary">Edit</a>
 
                             <!-- Button trigger modal -->

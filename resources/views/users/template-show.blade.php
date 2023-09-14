@@ -20,7 +20,7 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
-            Senarai Peralatan
+            Senarai Peralatan Yang Didaftarkan Oleh {{ $pengguna->name }}
         </div>
         <div class="card-body">
             @include('layouts.alerts')
@@ -31,20 +31,18 @@
                         <th>Submission ID</th>
                         <th>Nama Pembekal</th>
                         <th>Nama Jenama</th>
-                        <th>Nama Pendaftar</th>
                         <th>Tarikh Pendaftaran</th>
                         <th>Status</th>
                         <th>Tindakan</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($senaraiPeralatan as $peralatan)
+                    @foreach($pengguna->senaraiPeralatan as $peralatan)
                     <tr>
                         <td>{{ $peralatan['nama_peralatan'] }}</td>
                         <td>{{ $peralatan['submission_id'] }}</td>
                         <td>{{ $peralatan['nama_pembekal'] }}</td>
                         <td>{{ $peralatan['nama_jenama'] }}</td>
-                        <td>{{ $peralatan->rekodPendaftar->name }}</td>
                         <td>{{ $peralatan['tarikh_pendaftaran'] }}</td>
                         <td>{{ $peralatan->status }}</td>
                         <td>

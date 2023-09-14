@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Password;
@@ -60,7 +61,14 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $pengguna = User::findOrFail($id);
+
+        // $senaraiPeralatan = DB::table('users')
+        //             ->join('peralatan', 'users.id', '=', 'peralatan.user_id')
+        //             ->where('user_id', $id)
+        //             ->get();
+
+        return view('users.template-show', compact('pengguna'));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Peralatan;
 use Illuminate\Http\Request;
 
 class PeralatanController extends Controller
@@ -11,44 +12,9 @@ class PeralatanController extends Controller
      */
     public function index()
     {
-        $senaraiPeralatan = [
-            // Data 1
-            [
-                'id' => 1,
-                'nama_peralatan' => 'Facemask',
-                'submission_id' => 'ABC123',
-                'nama_pembekal' => 'Syarikat ABC',
-                'nama_jenama' => 'Jovian',
-                'tarikh_pendaftaran' => '2023-09-11'
-            ],
-            // Data 2
-            [
-                'id' => 2,
-                'nama_peralatan' => 'Latex Glove',
-                'submission_id' => 'XYZ123',
-                'nama_pembekal' => 'Syarikat XYZ',
-                'nama_jenama' => 'Hantam',
-                'tarikh_pendaftaran' => '2023-09-11'
-            ],
-            // Data 3
-            [
-                'id' => 3,
-                'nama_peralatan' => 'Contact Lens',
-                'submission_id' => 'JKL123',
-                'nama_pembekal' => 'Syarikat JKL',
-                'nama_jenama' => 'Test',
-                'tarikh_pendaftaran' => '2023-09-11'
-            ],
-            // Data 4
-            [
-                'id' => 4,
-                'nama_peralatan' => 'Picagari',
-                'submission_id' => 'FGH123',
-                'nama_pembekal' => 'Syarikat FGH',
-                'nama_jenama' => 'ABC Test',
-                'tarikh_pendaftaran' => '2023-09-09'
-            ],
-        ];
+        $senaraiPeralatan = Peralatan::all();
+
+        // dd($senaraiPeralatan);
 
         return view('peralatan.template-list-peralatan', compact('senaraiPeralatan'));
     }
@@ -66,7 +32,35 @@ class PeralatanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Buat validation
+        $data = $request->validate([
+            'nama_peralatan' => ['required'],
+            'submission_id' => ['required', 'alpha_dash'],
+            'nama_pembekal' => ['required'],
+            'nama_jenama' => ['required'],
+            'tarikh_pendaftaran' => ['required'],
+            'status' => ['required', 'in:available,out_of_stock'],
+        ]);
+
+        // Cara 1 Simpan Data menggunakan Model
+        // $peralatan = new Peralatan;
+        // $peralatan->nama_peralatan = $request->input('nama_peralatan');
+        // $peralatan->submission_id = $request->input('submission_id');
+        // $peralatan->nama_pembekal = $request->input('nama_pembekal');
+        // $peralatan->nama_jenama = $request->input('nama_jenama');
+        // $peralatan->tarikh_pendaftaran = $request->input('tarikh_pendaftaran');
+        // $peralatan->status = $request->input('status');
+        // $peralatan->user_id = 1;
+        // $peralatan->save();
+
+        // Attach ID User (yang tengah login) kepada $data
+        $data['user_id'] = auth()->id(); // Auth::id()
+
+        // Cara 2 simpan data menggunakan Model
+        Peralatan::create($data);
+
+        // Beri respon supaya redirect ke halaman senarai peralatan dengan mesej berjaya
+        return redirect()->route('peralatan.index')->with('mesej-berjaya', 'Rekod berjaya ditambah');
     }
 
     /**
@@ -80,17 +74,35 @@ class PeralatanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    // public function edit(string $id)
+    public function edit(Peralatan $peralatan)
     {
-        return view('peralatan.template-borang-edit');
+        // $peralatan = Peralatan::where('id', '=', $id)->first();
+        // $peralatan = Peralatan::find($id);
+
+        return view('peralatan.template-borang-edit', compact('peralatan'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Peralatan $peralatan)
     {
-        //
+        // Buat validation
+        $data = $request->validate([
+            'nama_peralatan' => ['required'],
+            'submission_id' => ['required', 'alpha_dash'],
+            'nama_pembekal' => ['required'],
+            'nama_jenama' => ['required'],
+            'tarikh_pendaftaran' => ['required'],
+            'status' => ['required', 'in:available,out_of_stock'],
+        ]);
+
+        // Cara 2 simpan data menggunakan Model
+        $peralatan->update($data);
+
+        // Beri respon supaya redirect ke halaman senarai peralatan dengan mesej berjaya
+        return redirect()->route('peralatan.index')->with('mesej-berjaya', 'Rekod berjaya dikemaskini');
     }
 
     /**
@@ -98,6 +110,14 @@ class PeralatanController extends Controller
      */
     public function destroy(string $id)
     {
-        return 'Rekod berjaya dihapuskan!';
+        // Cara 1
+        // Peralatan::where('id', '=', $id)->delete();
+
+        // Cara 2
+        // $peralatan = Peralatan::find($id);
+        $peralatan = Peralatan::findOrFail($id);
+        $peralatan->delete();
+
+        return redirect()->route('peralatan.index')->with('mesej-berjaya', 'Rekod berjaya dihapuskan');
     }
 }

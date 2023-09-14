@@ -42,4 +42,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // Relation ke table peralatan dari table users.
+    // Dapatkan semua rekod relation ke peralatan berdasarkan user_id
+    public function senaraiPeralatan()
+    {
+        return $this->hasMany(Peralatan::class);
+    }
 }
