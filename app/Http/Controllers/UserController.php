@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Mail\EmailSelamatDatang;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -50,7 +52,11 @@ class UserController extends Controller
         $data['password'] = bcrypt($data['password']);
 
         // Simpan data ke dalam table users menggunakan kaedah Query Builder
-        DB::table('users')->insert($data);
+        // DB::table('users')->insert($data);
+        $user = User::create($data);
+
+        // Hantar Email kepada user baru ini
+        Mail::to($user->email)->send(new EmailSelamatDatang($user));
 
         // Beri respon supaya redirect ke halaman senarai users dengan mesej berjaya
         return redirect()->route('users.index')->with('mesej-berjaya', 'Rekod berjaya ditambah');

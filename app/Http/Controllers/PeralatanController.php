@@ -13,7 +13,7 @@ class PeralatanController extends Controller
      */
     public function index()
     {
-        $senaraiPeralatan = Peralatan::all();
+        $senaraiPeralatan = Peralatan::with(['rekodPendaftar'])->get();
 
         // dd($senaraiPeralatan);
 

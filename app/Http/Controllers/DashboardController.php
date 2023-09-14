@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Peralatan;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -11,44 +13,14 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $senaraiPeralatan = [
-            // Data 1
-            [
-                'id' => 1,
-                'nama_peralatan' => 'Facemask',
-                'submission_id' => 'ABC123',
-                'nama_pembekal' => 'Syarikat ABC',
-                'nama_jenama' => 'Jovian',
-                'tarikh_pendaftaran' => '2023-09-11'
-            ],
-            // Data 2
-            [
-                'id' => 2,
-                'nama_peralatan' => 'Latex Glove',
-                'submission_id' => 'XYZ123',
-                'nama_pembekal' => 'Syarikat XYZ',
-                'nama_jenama' => 'Hantam',
-                'tarikh_pendaftaran' => '2023-09-11'
-            ],
-            // Data 3
-            [
-                'id' => 3,
-                'nama_peralatan' => 'Contact Lens',
-                'submission_id' => 'JKL123',
-                'nama_pembekal' => 'Syarikat JKL',
-                'nama_jenama' => 'Test',
-                'tarikh_pendaftaran' => '2023-09-11'
-            ],
-            // Data 4
-            [
-                'id' => 4,
-                'nama_peralatan' => 'Picagari',
-                'submission_id' => 'FGH123',
-                'nama_pembekal' => 'Syarikat FGH',
-                'nama_jenama' => 'ABC Test',
-                'tarikh_pendaftaran' => '2023-09-09'
-            ],
-        ];
+        $senaraiPeralatan = Peralatan::latest('id')->get();
+
+        // $statistikPeralatanAvailable = Peralatan::where('status', '=', 'available')->count();
+        $statistikPeralatanAvailable = Peralatan::whereStatus('available')->count();
+        $statistikPeralatanOutOfStock = Peralatan::whereStatus('out_of_stock')->count();
+
+        $statistikUserActive = User::whereStatus('active')->count();
+        $statistikUserPending = User::whereStatus('pending')->count();
 
         $pageTitle = 'Dashboard';
 
@@ -62,6 +34,13 @@ class DashboardController extends Controller
         // return view('template-dashboard', ['senaraiPeralatan' => $senaraiPeralatan, 'pageTitle' => $pageTitle]);
 
         // Response Papar template DENGAN data - Cara 3
-        return view('template-dashboard', compact('senaraiPeralatan', 'pageTitle'));
+        return view('template-dashboard', compact(
+            'senaraiPeralatan',
+            'pageTitle',
+            'statistikPeralatanAvailable',
+            'statistikPeralatanOutOfStock',
+            'statistikUserActive',
+            'statistikUserPending'
+        ));
     }
 }
